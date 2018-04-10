@@ -1,7 +1,9 @@
 package fr.main.display;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -55,12 +57,22 @@ public class FrameComponent {
         table1.setAutoCreateColumnsFromModel(true);
 
         table1.getColumnModel().getColumn(0).setPreferredWidth(80);
+
+        TableColumn tm = table1.getColumnModel().getColumn(0);
+        tm.setCellRenderer(new ColorColumnRenderer(Color.white, Color.BLACK));
+
         table1.getColumnModel().getColumn(1).setPreferredWidth(300);
+
+        tm = table1.getColumnModel().getColumn(1);
+        tm.setCellRenderer(new ColorColumnRenderer(Color.white, Color.black));
+
         table1.getColumnModel().getColumn(2).setPreferredWidth(500);
+
+        tm = table1.getColumnModel().getColumn(2);
+        tm.setCellRenderer(new ColorColumnRenderer(Color.white, Color.darkGray));
     }
 
-    private void updateRowHeights()
-    {
+    private void updateRowHeights() {
         for (int row = 0; row < table1.getRowCount(); row++)
         {
             int rowHeight = table1.getRowHeight();
@@ -72,6 +84,29 @@ public class FrameComponent {
             }
 
             table1.setRowHeight(row, rowHeight);
+        }
+    }
+
+    class ColorColumnRenderer extends DefaultTableCellRenderer {
+        Color bkgndColor, fgndColor;
+
+        public ColorColumnRenderer(Color bkgnd, Color foregnd) {
+            super();
+            bkgndColor = bkgnd;
+            fgndColor = foregnd;
+        }
+
+        public Component getTableCellRendererComponent
+                (JTable table, Object value, boolean isSelected,
+                 boolean hasFocus, int row, int column)
+        {
+            Component cell = super.getTableCellRendererComponent
+                    (table, value, isSelected, hasFocus, row, column);
+
+            cell.setBackground( bkgndColor );
+            cell.setForeground( fgndColor );
+
+            return cell;
         }
     }
 }
