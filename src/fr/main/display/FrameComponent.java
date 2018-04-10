@@ -4,12 +4,27 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FrameComponent {
     private JButton button1;
     private JTable table1;
     JPanel panelMain;
-    private JFrame frame;
+
+    public FrameComponent(){
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); //Windows Look and feel
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    }
 
     public void addPacket(int id, String name, String value){
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
@@ -58,9 +73,5 @@ public class FrameComponent {
 
             table1.setRowHeight(row, rowHeight);
         }
-    }
-
-    public void dispose(){
-        frame.dispose();
     }
 }

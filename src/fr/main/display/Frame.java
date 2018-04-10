@@ -1,6 +1,7 @@
 package fr.main.display;
 
 import javax.swing.*;
+import java.util.Map;
 
 public class Frame {
 
@@ -43,13 +44,5 @@ public class Frame {
         }catch(NullPointerException e){
             throw new NullPointerException("The frame has not been initialized yet! Call new Frame().display() first.");
         }
-    }
-
-    public static void main(String[] args){
-        Frame frame = new Frame();
-        frame.display();
-        frame.addPacket(150, "OIOUOIFJSGFDBJDKFDSGJFDDFLKQLDSGJKKL", "<html>SIGJFIDSegsthjlgkfdqsgdjlthg<br/>fkdmdqrmjslgkdfjqmrsjthlgfnklfgqmgrljshkgmdfkgqmjshgklbmfkqjgln\nshmjkgdbflqgmjgshdlgbfjqdùglmdfjkshklqmdj</html>");
-        frame.addPacket(150, "OIOUOIFJSGFDBJDKFDSGJFDDFLKQLDSGJKKL", "<html>SIGJFIDSegsthjlgkfdqsgdjlthg<br/>fkdmdqrmjslgkdfjqmrsjthlgfnkl<br/>fgqmgrljshkgmdfkgqmjshgklbmfkqjgl<br/>n\nshmjkgdb<br/>flq<br/>gmjgshdlgbfjqdùglmdfjkshklqmdj</html>");
-        frame.addPacket(500, "Name", new String[]{"Nom du packet", "ID : 50", "x : 20", "y : 50"});
     }
 }

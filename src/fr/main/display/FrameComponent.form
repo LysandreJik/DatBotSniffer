@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.main.display.FrameComponent">
   <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+    <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="841" height="472"/>
+      <xy x="20" y="20" width="712" height="659"/>
     </constraints>
-    <properties/>
+    <properties>
+      <foreground color="-12828863"/>
+    </properties>
     <border type="none"/>
     <children>
+      <scrollpane id="58b2a">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="1000" height="600"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-12828863"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="bf402" class="javax.swing.JTable" binding="table1" custom-create="true" default-binding="true">
+            <constraints/>
+            <properties>
+              <foreground color="-12828863"/>
+              <selectionForeground color="-12828922"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <hspacer id="2c6ca">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
       <component id="90d0e" class="javax.swing.JButton" binding="button1" default-binding="true">
         <constraints>
           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Exit"/>
         </properties>
       </component>
-      <hspacer id="3cb7a">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </hspacer>
-      <scrollpane id="58b2a">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <minimum-size width="1200" height="600"/>
-          </grid>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="bf402" class="javax.swing.JTable" binding="table1" custom-create="true" default-binding="true">
-            <constraints/>
-            <properties/>
-          </component>
-        </children>
-      </scrollpane>
     </children>
   </grid>
 </form>
