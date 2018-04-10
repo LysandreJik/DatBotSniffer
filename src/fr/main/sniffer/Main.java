@@ -1,10 +1,15 @@
 package fr.main.sniffer;
 
-/**
- * Main class for the datbot packet sniffer
- */
 public class Main {
-    public static void main(String[] args){
-        System.out.println("Initializing the packet sniffer");
+
+    /**
+     * Main startup method 
+     *
+     * @param args ignored 
+     */
+    public static void main(String[] args) {
+        System.out.println("Sniffer dofus 2.46");
+
     }
-}
+
+}  
