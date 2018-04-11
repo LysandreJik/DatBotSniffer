@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Message {
 	
-	public String name;
-	public String parents;
-	public long protocolId;
-	public List<Field> Fields;
-	public String namespace;
-	public boolean useHashFunc;
+	private String name;
+	private String parent;
+	private long protocolId;
+	private List<Field> Fields;
+	private String namespace;
+	private boolean useHashFunc;
 	
 	public String getName() {
 		return name;
@@ -17,11 +17,11 @@ public class Message {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getParents() {
-		return parents;
+	public String getParent() {
+		return parent;
 	}
-	public void setParents(String parents) {
-		this.parents = parents;
+	public void setParents(String parent) {
+		this.parent = parent;
 	}
 	public long getProtocolId() {
 		return protocolId;

@@ -2,6 +2,10 @@ package fr.main.sniffer.reader;
 
 import fr.main.display.Frame;
 import fr.main.sniffer.reader.utils.DofusDataReader;
+import fr.main.sniffer.tools.Log;
+import fr.main.sniffer.tools.protocol.JsonLoader;
+
+import java.io.ByteArrayInputStream;
 
 public class InputReader {
 
@@ -61,8 +65,24 @@ public class InputReader {
     }
 
     private void treatPacket(int id, byte[] data){
-
-        this.frame.addPacket(id,"test",bytesToString(data));
+        String namePacket = "";
+        for(fr.main.sniffer.tools.protocol.Message msg : JsonLoader.Messages){
+            if(msg.getProtocolId() == id){
+                namePacket = msg.getName();
+            }
+        }
+        Protocol protocol = new Protocol();
+        DofusDataReader reader = new DofusDataReader(new ByteArrayInputStream(data));
+        try {
+            if(id == 6253){
+                this.frame.addPacket(id,namePacket,"");
+            } else {
+                this.frame.addPacket(id,namePacket,protocol.getData(id,reader));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.writeLogDebugMessage("Impossible to parse packet");
+        }
     }
 
 

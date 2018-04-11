@@ -1,7 +1,6 @@
 package fr.main.sniffer.reader;
 
 import fr.main.sniffer.reader.utils.DofusDataReader;
-import fr.main.sniffer.tools.Log;
 
 public class Message {
 	

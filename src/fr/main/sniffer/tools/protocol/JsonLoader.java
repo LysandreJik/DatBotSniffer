@@ -21,9 +21,6 @@ public class JsonLoader {
             JSONObject obj = (JSONObject) parser.parse(new FileReader(file));
             Messages = parseJsonBuilderArray((JSONArray) obj.get("Messages"));
             Types = parseJsonBuilderArray((JSONArray) obj.get("Types"));
-            for (Object object : types) {
-                System.out.println(object);
-            }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }    }
@@ -64,7 +61,6 @@ public class JsonLoader {
             if(!types.contains(obj.getWriteMethod())){
                 types.add(obj.getWriteMethod());
             }
-            obj.setMethod((String) object.get("Method"));
             obj.setIsVector((boolean) object.get("IsVector"));
             obj.setDynamicLength((boolean) object.get("IsDynamicLength"));
             obj.setLength((long) object.get("Length"));

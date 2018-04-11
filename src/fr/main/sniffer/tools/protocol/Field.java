@@ -1,18 +1,17 @@
 package fr.main.sniffer.tools.protocol;
 
 public class Field {
-	
-	public String name;
-	public String type;
-	public String writeMethod;
-	public String method;
-	public boolean isVector;
-	public boolean isDynamicLength;
-	public long length;
-	public String writeLengthMethod;
-	public boolean useTypeManager;
-	public boolean useBBW;
-	public long bbwPosition;
+
+	private String name;
+	private String type;
+	private String writeMethod;
+	private boolean isVector;
+	private boolean isDynamicLength;
+	private long length;
+	private String writeLengthMethod;
+	private boolean useTypeManager;
+	private boolean useBBW;
+	private long bbwPosition;
 	
 	public String getName() {
 		return name;
@@ -31,12 +30,6 @@ public class Field {
 	}
 	public void setWriteMethod(String writeMethod) {
 		this.writeMethod = writeMethod;
-	}
-	public String getMethod() {
-		return method;
-	}
-	public void setMethod(String method) {
-		this.method = method;
 	}
 	public boolean isVector() {
 		return isVector;

@@ -1,6 +1,5 @@
 package fr.main.sniffer.reader.utils;
 
-import fr.main.sniffer.reader.utils.types.BitConverter;
 import fr.main.sniffer.reader.utils.types.Int64;
 import fr.main.sniffer.reader.utils.types.UInt64;
 
@@ -9,18 +8,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@SuppressWarnings("unused")
 public class DofusDataReader implements IDofusDataInput {
     private DataInputStream dis;
     private ByteArrayInputStream bis;
     private int lengthStream;
     private final int INT_SIZE = 32;
     private final int SHORT_SIZE = 16;
-	private final int SHORT_MIN_VALUE = -32768;
-    private final int SHORT_MAX_VALUE = 32767;
-    private final int UNSIGNED_SHORT_MAX_VALUE = 65536;
     private final int CHUNCK_BIT_SIZE = 7;
-    private final int MAX_ENCODING_LENGTH = (int) Math.ceil(INT_SIZE / CHUNCK_BIT_SIZE);
     private final int MASK_10000000 = 128;
     private final int MASK_01111111 = 127;
 
@@ -30,11 +24,7 @@ public class DofusDataReader implements IDofusDataInput {
         this.dis = new DataInputStream(this.bis);
         this.dis.mark(0);
     }
-    
-    public void Dispose(){
-        this.dis = new DataInputStream(bis);
-    }
-    
+
     public int getPosition() throws IOException{
     	return this.lengthStream - this.available();
     }
@@ -279,10 +269,6 @@ public class DofusDataReader implements IDofusDataInput {
     public int readInt() throws IOException {
         return dis.readInt();
     }
-    
-    public int readUInt() throws IOException{
-        return (int) BitConverter.ToUInt32(ReadBigEndianBytes(4), 0);
-    }
 
 	@SuppressWarnings("deprecation")
 	public String readLine() throws IOException {
@@ -292,10 +278,7 @@ public class DofusDataReader implements IDofusDataInput {
     public long readLong() throws IOException {
         return dis.readLong();
     }
-    
-    public int readULong() throws IOException{
-        return (int) BitConverter.ToUInt64(ReadBigEndianBytes(8), 0);
-    }
+
 
     public short readShort() throws IOException {
         return dis.readShort();
@@ -308,24 +291,12 @@ public class DofusDataReader implements IDofusDataInput {
     private int readUShort() throws IOException {
         return dis.readUnsignedShort();
     }
-    
-    public String ReadAscii(int bytesAmount) throws IOException
-    {
-        byte[] buffer = this.readBytes(bytesAmount);
-        return new String(buffer, StandardCharsets.US_ASCII);
-    }
 
     public String readUTF() throws IOException {
     	int len  = readUShort();
     	byte[] bytes = readBytes(len);
         return new String(bytes, StandardCharsets.UTF_8); 
         }
-    
-    public String ReadUTFBytes(short len) throws IOException
-    {
-        byte[] bytes = readBytes(len);
-        return new String(bytes, StandardCharsets.UTF_8);
-    }
 
     public int skipBytes(int n) throws IOException {
         return dis.skipBytes(n);
@@ -334,27 +305,6 @@ public class DofusDataReader implements IDofusDataInput {
 	public int available() throws IOException {
 		return this.dis.available();
 	}
-	
-    private byte[] ReadBigEndianBytes(int count) throws IOException
-    {
-    	byte[] array = new byte[count];
-        for (int i = count - 1; i >= 0; i--)
-            array[i] = dis.readByte();
-        return array;
-    }
-
-
-    public float ReadSingle() throws IOException
-    {
-        return BitConverter.ToSingle(ReadBigEndianBytes(4), 0);
-    }
-
-    public String ReadUTF7BitLength() throws IOException
-    {
-        int n = readInt();
-        byte[] bytes = readBytes(n);
-        return new String(bytes, StandardCharsets.UTF_8);
-    }
 
 	@Override
 	public void readFully(byte[] b) throws IOException {

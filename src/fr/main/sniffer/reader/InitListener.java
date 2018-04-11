@@ -118,6 +118,7 @@ public class InitListener implements Runnable{
         Process p = new ProcessBuilder(pathConfig + "\\d2json.exe", pathConfig + "\\Invoker.swf").redirectOutput(output).start();
         p.waitFor();
         new JsonLoader(pathConfig + "\\d2jsonOutput.json");
+        Log.writeLogDebugMessage("Protocol generated");
     }
 
     private PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {

@@ -1,6 +1,7 @@
 package fr.main.display;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.Map;
 
 public class Frame {
@@ -33,7 +34,7 @@ public class Frame {
         }
     }
 
-    public void addPacket(int id, String name, String[] values){
+    public void addPacket(int id, String name, List<String> values){
         try{
             StringBuilder valuesString = new StringBuilder("<html>");
             for(String value : values){
