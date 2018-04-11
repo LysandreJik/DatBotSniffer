@@ -1,60 +1,48 @@
 package fr.main.display;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.util.Map;
 
-public class Frame extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+public class Frame {
 
-    public Frame() {
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+    JFrame frame;
+    FrameComponent bf;
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    public void display(){
+        frame = new JFrame();
+        bf = new FrameComponent();
+        frame.setContentPane(bf.panelMain);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    public void dispose(){
+        try{
+            frame.dispose();
+        }catch(NullPointerException e){
+            throw new NullPointerException("The frame has not been initialized yet! Call new Frame().display() first.");
+        }
     }
 
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
+    public void addPacket(int id, String name, String value){
+        try{
+            bf.addPacket(id, name, value);
+        }catch(NullPointerException e){
+            throw new NullPointerException("The frame has not been initialized yet! Call new Frame().display() first.");
+        }
     }
 
-    public static void main(String[] args) {
-        Frame dialog = new Frame();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+    public void addPacket(int id, String name, String[] values){
+        try{
+            StringBuilder valuesString = new StringBuilder("<html>");
+            for(String value : values){
+                valuesString.append(value).append("<br/>");
+            }
+            valuesString = new StringBuilder(valuesString.substring(0, valuesString.length() - 5) + "</html>");
+            bf.addPacket(id, name, valuesString.toString());
+        }catch(NullPointerException e){
+            throw new NullPointerException("The frame has not been initialized yet! Call new Frame().display() first.");
+        }
     }
 }
