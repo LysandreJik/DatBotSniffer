@@ -1,6 +1,7 @@
 package fr.main.sniffer;
 
 import fr.main.display.Frame;
+import fr.main.sniffer.reader.InitListener;
 
 /**
  * Main class for the datbot packet sniffer
@@ -22,7 +23,9 @@ public class Main {
 
         // Disposing of the window
         // frame.dispose();
-    }
 
+        InitListener i = new InitListener(frame);
+        new Thread(i).start();
+    }
 
 }

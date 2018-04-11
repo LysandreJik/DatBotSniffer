@@ -9,13 +9,9 @@ public class Log {
         System.out.println("--- "+ msg +" ---");
     }
 
-    public static void writeLogCTSMessage (String msg)
+    public static void writePacketMessage (String msg)
     {
-        System.out.println("Client->Serveur : "+ msg);
-    }
-    public static void writeLogSTCMessage (String msg)
-    {
-        System.out.println("Serveur->Client : "+ msg);
+        System.out.println("Packet : "+ msg);
     }
 
 }
