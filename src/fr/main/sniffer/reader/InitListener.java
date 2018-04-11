@@ -17,6 +17,7 @@ import org.jnetpcap.protocol.tcpip.Tcp;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -39,9 +40,11 @@ public class InitListener implements Runnable{
             prop = PropertyLoader.load("src/fr/main/sniffer/config/init.properties");
             this.port = Integer.parseInt(prop.getProperty("serv.auth.port", "5555"));
             this.initDevice();
-
+            this.generateProtocol();
         } catch (IOException e) {
-            Log.writeLogDebugMessage("Impossible de lire le fichier init.properties");
+            Log.writeLogDebugMessage("Can't read init.properties");
+        } catch (InterruptedException e) {
+            Log.writeLogDebugMessage("Can't generate protocol");
         }
     }
 
@@ -51,20 +54,20 @@ public class InitListener implements Runnable{
         StringBuilder errbuf = new StringBuilder();
         int r = Pcap.findAllDevs(alldevs, errbuf);
         if (r == Pcap.NOT_OK || alldevs.isEmpty()) {
-            Log.writeLogDebugMessage("Impossible de trouver un communicateur");
+            Log.writeLogDebugMessage("Device not found");
             return;
         }
         for(PcapIf dev : alldevs){
             Log.writeLogDebugMessage((dev.getDescription() != null) ? dev.getDescription(): dev.getName());
         }
         PcapIf device = alldevs.get(1);
-        Log.writeLogDebugMessage(String.format("Choix : %s",(device.getDescription() != null) ? device.getDescription(): device.getName()));
+        Log.writeLogDebugMessage(String.format("Choosing : %s",(device.getDescription() != null) ? device.getDescription(): device.getName()));
         int snaplen = 64 * 1024;
         int flags = Pcap.MODE_PROMISCUOUS;
         int timeout = 1;
         pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
         if (pcap == null) {
-            Log.writeLogDebugMessage("Erreur lors de l'ouverture du communicateur : " + errbuf.toString());
+            Log.writeLogDebugMessage("Error while openning the device : " + errbuf.toString());
             return;
         }
         this.applyFilter();
@@ -94,8 +97,27 @@ public class InitListener implements Runnable{
             Log.writeLogDebugMessage(pcap.getErr());
             return;
         }
-        Log.writeLogDebugMessage("Le sniffer écoute le port "+this.port);
-        Log.writeLogDebugMessage("En attente du client");
+        Log.writeLogDebugMessage("Sniffer listenning to  "+this.port);
+        Log.writeLogDebugMessage("Waiting for client");
+    }
+
+    public static String getPathDatBotSniffer() {
+        String s = Paths.get("").toAbsolutePath().toString();
+        int i = s.indexOf("DatBotSniffer");
+        if(i == -1){
+            s = Paths.get("").toAbsolutePath().toString()+"\\DatBotSniffer";
+        }else{
+            s = s.substring(0, i + 13);
+        }
+        return s;
+    }
+
+    private void generateProtocol() throws IOException, InterruptedException {
+        String pathConfig = getPathDatBotSniffer() + "\\src\\fr\\main\\sniffer\\config";
+        File output = new File(pathConfig + "\\d2jsonOutput.json");
+        Process p = new ProcessBuilder(pathConfig + "\\d2json.exe", pathConfig + "\\Invoker.swf").redirectOutput(output).start();
+        p.waitFor();
+        new JsonLoader(pathConfig + "\\d2jsonOutput.json");
     }
 
     private PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
