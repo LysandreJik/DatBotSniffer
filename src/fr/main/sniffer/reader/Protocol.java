@@ -17,6 +17,7 @@ public class Protocol {
     DofusDataReader reader;
 
     public List<String> getData(int id, DofusDataReader reader) throws Exception {
+        Log.writeLogDebugMessage("Instance : " +id);
         this.reader = reader;
         List<String> result = new ArrayList<>();
         Message message = getMessage(id);
@@ -40,6 +41,7 @@ public class Protocol {
     }
 
     private List<String> getData(String name) throws Exception {
+        Log.writeLogDebugMessage("Instance : " +name);
         List<String> result = new ArrayList<>();
         Message message;
         if(name.contains("Message")){
@@ -94,8 +96,10 @@ public class Protocol {
             if(f.isVector()){
                 if(f.isDynamicLength()){
                     Object value = getValue(f.getWriteLengthMethod());
+                    Log.writeLogDebugMessage("List size : " + value);
                     if(value instanceof Short){
                         for(int i=0 ; i< (short) value ; i++){
+                            Log.writeLogDebugMessage("Current list index : " +i);
                             result.addAll(getValues(f));
                         }
                     } else {
