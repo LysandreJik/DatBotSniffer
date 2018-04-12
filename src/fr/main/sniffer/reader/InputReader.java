@@ -74,7 +74,7 @@ public class InputReader {
         Protocol protocol = new Protocol();
         DofusDataReader reader = new DofusDataReader(new ByteArrayInputStream(data));
         try {
-            if(id == 6253 || id == 6440) {
+            if(id == 6253 || id == 6440){
                 this.frame.addPacket(id,namePacket,"");
             } else {
                 this.frame.addPacket(id,namePacket,protocol.getData(id,reader));

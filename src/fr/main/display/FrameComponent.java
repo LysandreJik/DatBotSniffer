@@ -8,8 +8,11 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrameComponent {
     private JButton button1;
@@ -17,6 +20,7 @@ public class FrameComponent {
     JPanel panelMain;
     private JScrollPane scrollPane1;
     JScrollBar scrollBar;
+    List<Data> columnData;
 
     public FrameComponent(){
         try {
@@ -31,11 +35,60 @@ public class FrameComponent {
             }
         });
         scrollBar = scrollPane1.getVerticalScrollBar();
+
+        Action extend = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                int modelRow = Integer.valueOf( e.getActionCommand() );
+                DefaultTableModel model = (DefaultTableModel) table1.getModel();
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        if(columnData.get(modelRow).isShowingTooltip()){
+                            model.setValueAt(columnData.get(modelRow).getExtendedData(), modelRow, 2);
+                            columnData.get(modelRow).setShowingTooltip(false);
+                        }else{
+                            model.setValueAt(columnData.get(modelRow).getReducedData(), modelRow, 2);
+                            columnData.get(modelRow).setShowingTooltip(true);
+                        }
+
+                        updateRowHeights();
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                scrollBar.setValue(scrollBar.getMaximum());
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        ButtonColumn buttonColumnExtend = new ButtonColumn(table1, extend, 3);
+        buttonColumnExtend.setMnemonic(KeyEvent.VK_D);
+
+        Action delete = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf( e.getActionCommand() );
+                ((DefaultTableModel)table.getModel()).removeRow(modelRow);
+            }
+        };
+
+        ButtonColumn buttonColumnDelete = new ButtonColumn(table1, delete, 4);
+        buttonColumnDelete.setMnemonic(KeyEvent.VK_D);
+
+        columnData = new ArrayList<>();
     }
 
-    public void addPacket(int id, String name, String value){
+    public void addPacket(int id, String name, String tooltip, String value){
+
+        Data data = new Data(id, name, tooltip, value);
+        columnData.add(data);
+
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
-        Object[] row = { id, name, value };
+        Object[] row = data.getReducedDataObject();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 model.addRow(row);
@@ -52,7 +105,7 @@ public class FrameComponent {
     }
 
     public String[] getColumnNames(){
-        String[] columnNames = {"Packet ID", "Packet name", "Packet value"};
+        String[] columnNames = {"Packet ID", "Packet name", "Packet value", "extend", "remove"};
         return columnNames;
     }
 
