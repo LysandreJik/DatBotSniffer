@@ -44,14 +44,20 @@ public class FrameComponent {
                 DefaultTableModel model = (DefaultTableModel) table1.getModel();
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        if(columnData.get(modelRow).isShowingTooltip()){
-                            model.setValueAt(columnData.get(modelRow).getExtendedData(), modelRow, 2);
-                            columnData.get(modelRow).setShowingTooltip(false);
-                        }else{
-                            model.setValueAt(columnData.get(modelRow).getReducedData(), modelRow, 2);
-                            columnData.get(modelRow).setShowingTooltip(true);
-                        }
 
+                            boolean tryExtend = true;
+                            while(tryExtend){
+                                try{
+                                    if(columnData.get(modelRow).isShowingTooltip()){
+                                        model.setValueAt(columnData.get(modelRow).getExtendedData(), modelRow, 2);
+                                        columnData.get(modelRow).setShowingTooltip(false);
+                                    }else{
+                                        model.setValueAt(columnData.get(modelRow).getReducedData(), modelRow, 2);
+                                        columnData.get(modelRow).setShowingTooltip(true);
+                                    }
+                                    tryExtend = false;
+                                }catch(Exception e){}
+                            }
                         updateRowHeights();
                         SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
@@ -135,6 +141,10 @@ public class FrameComponent {
 
         tm = table1.getColumnModel().getColumn(2);
         tm.setCellRenderer(new ColorColumnRenderer(Color.white, Color.darkGray));
+
+        table1.getColumnModel().getColumn(3).setPreferredWidth(50);
+        table1.getColumnModel().getColumn(4).setPreferredWidth(100);
+
     }
 
     private void updateRowHeights() {
