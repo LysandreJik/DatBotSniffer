@@ -20,36 +20,36 @@ public class Main {
         // Displaying the frame object
         frame.display();
 
-        ArrayList<String> str = new ArrayList<>();
-        str.add("OKOKOKOKO");
-        str.add("OKOKOKOKO");
-        str.add("OKOKOKOKO");
-        str.add("OKOKOKOKO");
-        str.add("OKOKOKOKO");
-        str.add("OKOKOKOKO");
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", "tooltip", str);
-        Thread.sleep(1000);
+//        ArrayList<String> str = new ArrayList<>();
+//        str.add("OKOKOKOKO");
+//        str.add("OKOKOKOKO");
+//        str.add("OKOKOKOKO");
+//        str.add("OKOKOKOKO");
+//        str.add("OKOKOKOKO");
+//        str.add("OKOKOKOKO");
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
+//        frame.addPacket(150, "sqdqqd", "tooltip", str);
+//        Thread.sleep(1000);
 
 
         // Disposing of the window
         // frame.dispose();
-//
-//        InitListener i = new InitListener(frame);
-//        new Thread(i).start();
+
+        InitListener i = new InitListener(frame);
+        new Thread(i).start();
     }
 
 }
