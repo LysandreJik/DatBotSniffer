@@ -10,7 +10,7 @@ import java.util.List;
  * Main class for the datbot packet sniffer
  */
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing the packet sniffer");
 
         // Example usage of the Frame class
@@ -20,11 +20,36 @@ public class Main {
         // Displaying the frame object
         frame.display();
 
+        ArrayList<String> str = new ArrayList<>();
+        str.add("OKOKOKOKO");
+        str.add("OKOKOKOKO");
+        str.add("OKOKOKOKO");
+        str.add("OKOKOKOKO");
+        str.add("OKOKOKOKO");
+        str.add("OKOKOKOKO");
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+        frame.addPacket(150, "sqdqqd", str);
+        Thread.sleep(1000);
+
+
         // Disposing of the window
         // frame.dispose();
-
-        InitListener i = new InitListener(frame);
-        new Thread(i).start();
+//
+//        InitListener i = new InitListener(frame);
+//        new Thread(i).start();
     }
 
 }

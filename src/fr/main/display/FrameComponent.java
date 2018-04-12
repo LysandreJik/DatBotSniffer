@@ -8,11 +8,15 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class FrameComponent {
     private JButton button1;
     private JTable table1;
     JPanel panelMain;
+    private JScrollPane scrollPane1;
+    JScrollBar scrollBar;
 
     public FrameComponent(){
         try {
@@ -26,6 +30,7 @@ public class FrameComponent {
                 System.exit(0);
             }
         });
+        scrollBar = scrollPane1.getVerticalScrollBar();
     }
 
     public void addPacket(int id, String name, String value){
@@ -35,8 +40,15 @@ public class FrameComponent {
             public void run() {
                 model.addRow(row);
                 updateRowHeights();
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        scrollBar.setValue(scrollBar.getMaximum());
+                    }
+                });
             }
         });
+
+
     }
 
     public String[] getColumnNames(){
