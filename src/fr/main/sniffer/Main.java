@@ -27,21 +27,21 @@ public class Main {
         str.add("OKOKOKOKO");
         str.add("OKOKOKOKO");
         str.add("OKOKOKOKO");
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
-        frame.addPacket(150, "sqdqqd", str);
+        frame.addPacket(150, "sqdqqd", "tooltip", str);
         Thread.sleep(1000);
 
 

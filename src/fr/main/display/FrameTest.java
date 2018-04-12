@@ -19,7 +19,7 @@ public class FrameTest {
         frame = new Frame();
         frame.display();
         Thread.sleep(200);
-        frame.addPacket(50, "NAME", "VALUE");
+        frame.addPacket(50, "NAME", "tooltip", "VALUE");
         Thread.sleep(200);
         frame.dispose();
     }
@@ -27,7 +27,7 @@ public class FrameTest {
     @Test(expected = NullPointerException.class)
     public void testNonInitAddPacket() {
         frame = new Frame();
-        frame.addPacket(50, "", "");
+        frame.addPacket(50, "", "tooltip", "");
     }
 
     @Test(expected = NullPointerException.class)

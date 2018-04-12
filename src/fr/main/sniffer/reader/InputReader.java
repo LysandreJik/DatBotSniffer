@@ -75,9 +75,9 @@ public class InputReader {
         DofusDataReader reader = new DofusDataReader(new ByteArrayInputStream(data));
         try {
             if(id == 6253){
-                this.frame.addPacket(id,namePacket,"");
+                this.frame.addPacket(id,namePacket, "tooltip","");
             } else {
-                this.frame.addPacket(id,namePacket,protocol.getData(id,reader));
+                this.frame.addPacket(id,namePacket, "tooltip",protocol.getData(id,reader));
             }
         } catch (Exception e) {
             e.printStackTrace();
