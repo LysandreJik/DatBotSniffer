@@ -28,7 +28,7 @@ public class DofusDataReader implements IDofusDataInput {
     public int getPosition() throws IOException{
     	return this.lengthStream - this.available();
     }
-    
+
     public void setPosition(int n){
         try
 		{
@@ -41,7 +41,7 @@ public class DofusDataReader implements IDofusDataInput {
 			e.printStackTrace();
 		}
     }
-    
+
     public int readVarInt() throws IOException {
         int b;
         int value = 0;
@@ -243,7 +243,7 @@ public class DofusDataReader implements IDofusDataInput {
     public byte readByte() throws IOException {
         return dis.readByte();
     }
-    
+
     public byte[] readBytes(int n) throws IOException{
     	byte[] b = new byte[n];
     	dis.readFully(b, 0, n);
@@ -295,7 +295,7 @@ public class DofusDataReader implements IDofusDataInput {
     public String readUTF() throws IOException {
     	int len  = readUShort();
     	byte[] bytes = readBytes(len);
-        return new String(bytes, StandardCharsets.UTF_8); 
+        return new String(bytes, StandardCharsets.UTF_8);
         }
 
     public int skipBytes(int n) throws IOException {
@@ -308,7 +308,7 @@ public class DofusDataReader implements IDofusDataInput {
 
 	@Override
 	public void readFully(byte[] b) throws IOException {
-		this.dis.readFully(b);		
+		this.dis.readFully(b);
 	}
 
 	@Override

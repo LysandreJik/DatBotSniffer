@@ -81,7 +81,8 @@ public class InputReader {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.writeLogDebugMessage("Impossible to parse packet");
+            Log.writeLogDebugMessage("Impossible to parse packet " +id);
+            System.exit(1);
         }
     }
 

@@ -6,6 +6,7 @@ import fr.main.sniffer.tools.Log;
 import fr.main.sniffer.tools.protocol.Field;
 import fr.main.sniffer.tools.protocol.JsonLoader;
 import fr.main.sniffer.tools.protocol.Message;
+import fr.main.sniffer.tools.protocol.ProtocolTypeManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +14,10 @@ import java.util.List;
 
 public class Protocol {
 
+    DofusDataReader reader;
+
     public List<String> getData(int id, DofusDataReader reader) throws Exception {
+        this.reader = reader;
         List<String> result = new ArrayList<>();
         Message message = getMessage(id);
         if(message == null){
@@ -22,7 +26,7 @@ public class Protocol {
         }
         String parent = message.getParent();
         if(!parent.isEmpty()){
-            List<String> resultFields = getData(parent, reader);
+            List<String> resultFields = getData(parent);
             if(resultFields != null){
                 result.addAll(resultFields);
             }
@@ -30,12 +34,12 @@ public class Protocol {
         result.add(message.getName());
         List<Field> fields = message.getFields();
         if(fields != null){
-            result.addAll(getValueData(fields, reader));
+            result.addAll(getValueData(fields));
         }
         return result;
     }
 
-    private List<String> getData(String name, DofusDataReader reader) throws Exception {
+    private List<String> getData(String name) throws Exception {
         List<String> result = new ArrayList<>();
         Message message;
         if(name.contains("Message")){
@@ -51,7 +55,7 @@ public class Protocol {
 
         String parent = message.getParent();
         if(!parent.isEmpty()){
-            List<String> resultFields = getData(parent, reader);
+            List<String> resultFields = getData(parent);
             if(resultFields != null){
                 result.addAll(resultFields);
             }
@@ -59,12 +63,12 @@ public class Protocol {
         result.add(name);
         List<Field> fields = message.getFields();
         if(fields != null){
-            result.addAll(getValueData(fields, reader));
+            result.addAll(getValueData(fields));
         }
         return result;
     }
 
-    private List<String> getValueData(List<Field> fields, DofusDataReader reader) throws Exception {
+    private List<String> getValueData(List<Field> fields) throws Exception {
         List<String> result = new ArrayList<>();
         List<Field> fieldBBW = new ArrayList<>();
         List<Field> fieldNormal = new ArrayList<>();
@@ -80,48 +84,57 @@ public class Protocol {
             byte flag = (byte) reader.readUnsignedByte();
             for (Field f : fieldBBW){
                 result.add(formatField(f.getName(),BooleanByteWrapper.GetFlag(flag,(byte) f.getBbwPosition())));
+                if(f.getBbwPosition() == 7){
+                    flag = (byte) reader.readUnsignedByte();
+                }
             }
         }
 
         for (Field f : fieldNormal){
             if(f.isVector()){
                 if(f.isDynamicLength()){
-                    int size = (int) getValue(f.getWriteLengthMethod(),reader);
-                    for(int i=0 ; i<size ; i++){
-                        result.addAll(getValues(reader, f));
+                    Object value = getValue(f.getWriteLengthMethod());
+                    if(value instanceof Short){
+                        for(int i=0 ; i< (short) value ; i++){
+                            result.addAll(getValues(f));
+                        }
+                    } else {
+                        for(int i=0 ; i< (int) value ; i++){
+                            result.addAll(getValues(f));
+                        }
                     }
+
                 } else {
                     for(int i=0 ; i<f.getLength() ; i++){
-                        result.addAll(getValues(reader, f));
+                        result.addAll(getValues(f));
                     }
                 }
             } else {
-                result.addAll(getValues(reader, f));
+                result.addAll(getValues(f));
             }
         }
-
         return result;
     }
 
-    private List<String> getValues(DofusDataReader reader, Field f) throws Exception {
+    private List<String> getValues(Field f) throws Exception {
         List<String> result = new ArrayList<>();
-        Object value = getValue(f.getWriteMethod(),reader);
+        Object value = getValue(f.getWriteMethod());
         if(value != null){
             result.add(formatField(f.getName(),value));
         } else {
             if(f.isUseTypeManager()){
-                int id = reader.readShort();
-                String name = getType(id).getName();
-                result.addAll(getData(name,reader));
+                short id = reader.readShort();
+                String name = ProtocolTypeManager.getInstance(id);
+                result.addAll(getData(name));
             } else {
                 String name = f.getType();
-                result.addAll(getData(name,reader));
+                result.addAll(getData(name));
             }
         }
         return result;
     }
 
-    private Object getValue(String method, DofusDataReader reader) throws IOException {
+    private Object getValue(String method) throws IOException {
         switch (method) {
             case "writeUTF":
                 return reader.readUTF();
@@ -145,9 +158,10 @@ public class Protocol {
                 return reader.readFloat();
             case "writeUnsignedInt":
                 return reader.readUnsignedByte();
-            default:
+            case "":
                 return null;
         }
+        return new Object();
     }
 
     private Message getMessage(int id){
