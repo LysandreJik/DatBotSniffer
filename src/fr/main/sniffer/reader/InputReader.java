@@ -81,12 +81,13 @@ public class InputReader {
                 System.out.println(stringBytes);
             }
             if(id == 6253 || id == 6440){
-                this.frame.addPacket(id,namePacket,"tooltip","");
+                this.frame.addPacket(id,namePacket,String.valueOf(data.length),"");
             } else {
-                this.frame.addPacket(id,namePacket,"tooltip",protocol.getData(id,reader));
+                this.frame.addPacket(id,namePacket,String.valueOf(data.length),protocol.getData(id,reader));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            this.frame.addPacket(id,namePacket,"ERROR","ERROR");
             Log.writeLogDebugMessage("Impossible to parse packet " +id);
         }
     }

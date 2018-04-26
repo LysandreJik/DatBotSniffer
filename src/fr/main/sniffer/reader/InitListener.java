@@ -25,8 +25,8 @@ import java.util.Properties;
 public class InitListener implements Runnable{
 
     private int port;
-    private Pcap pcap;
-    private InputReader input;
+    private static Pcap pcap;
+    private static InputReader input;
 
     @Override
     public void run() {
@@ -74,14 +74,14 @@ public class InitListener implements Runnable{
         this.applyFilter();
     }
 
-    public void startListener(){
+    public static void startListener(){
         Log.writeLogDebugMessage("Starting listening...");
-        this.pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "");
+        pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "");
     }
 
-    public void closeListener(){
+    public static void closeListener(){
         Log.writeLogDebugMessage("Closing listening...");
-        this.pcap.breakloop();
+        pcap.breakloop();
     }
 
     private void applyFilter(){
@@ -122,7 +122,7 @@ public class InitListener implements Runnable{
         Log.writeLogDebugMessage("Protocol generated");
     }
 
-    private PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
+    private static PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
         public void nextPacket(PcapPacket packet, String user) {
             Tcp tcp = new Tcp();
             int port = 0;
