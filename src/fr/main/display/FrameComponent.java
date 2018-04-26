@@ -117,10 +117,8 @@ public class FrameComponent {
             public void actionPerformed(ActionEvent e) {
                 if(runningSniff) {
                     runningSniff = false;
-                    InitListener.closeListener();
                 }else{
                     runningSniff = true;
-                    InitListener.startListener();
                 }
             }
         });

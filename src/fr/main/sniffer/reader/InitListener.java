@@ -25,12 +25,13 @@ import java.util.Properties;
 public class InitListener implements Runnable{
 
     private int port;
-    private static Pcap pcap;
-    private static InputReader input;
+    private Pcap pcap;
+    private InputReader input;
 
     @Override
     public void run() {
-        startListener();
+        System.out.println(getNumberOfAvailableDevices());
+        pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "");
     }
 
     public InitListener(Frame frame){
@@ -47,6 +48,19 @@ public class InitListener implements Runnable{
         } catch (InterruptedException e) {
             Log.writeLogDebugMessage("Can't generate protocol");
         }
+    }
+
+    private int getNumberOfAvailableDevices(){
+        List<PcapIf> alldevs = new ArrayList<>();
+        Log.writeLogDebugMessage("Device available");
+        StringBuilder errbuf = new StringBuilder();
+        int r = Pcap.findAllDevs(alldevs, errbuf);
+        if (r == Pcap.NOT_OK || alldevs.isEmpty()) {
+            Log.writeLogDebugMessage("Device not found");
+            return 0;
+        }
+
+        return alldevs.size();
     }
 
     private void initDevice(){
@@ -74,16 +88,6 @@ public class InitListener implements Runnable{
         this.applyFilter();
     }
 
-    public static void startListener(){
-        Log.writeLogDebugMessage("Starting listening...");
-        pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "");
-    }
-
-    public static void closeListener(){
-        Log.writeLogDebugMessage("Closing listening...");
-        pcap.breakloop();
-    }
-
     private void applyFilter(){
         // Filter for port 5555 or 443
         PcapBpfProgram program = new PcapBpfProgram();
@@ -102,7 +106,7 @@ public class InitListener implements Runnable{
         Log.writeLogDebugMessage("Waiting for client");
     }
 
-    public static String getPathDatBotSniffer() {
+    private String getPathDatBotSniffer() {
         String s = Paths.get("").toAbsolutePath().toString();
         int i = s.indexOf("DatBotSniffer");
         if(i == -1){
@@ -113,7 +117,7 @@ public class InitListener implements Runnable{
         return s;
     }
 
-    public static void generateProtocol() throws IOException, InterruptedException {
+    private void generateProtocol() throws IOException, InterruptedException {
         String pathConfig = getPathDatBotSniffer() + "\\src\\fr\\main\\sniffer\\config";
         File output = new File(pathConfig + "\\d2jsonOutput.json");
         Process p = new ProcessBuilder(pathConfig + "\\d2json.exe", pathConfig + "\\Invoker.swf").redirectOutput(output).start();
@@ -122,7 +126,7 @@ public class InitListener implements Runnable{
         Log.writeLogDebugMessage("Protocol generated");
     }
 
-    private static PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
+    private PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
         public void nextPacket(PcapPacket packet, String user) {
             Tcp tcp = new Tcp();
             int port = 0;
