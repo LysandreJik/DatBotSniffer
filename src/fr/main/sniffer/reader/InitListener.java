@@ -35,6 +35,7 @@ public class InitListener implements Runnable{
 
     public InitListener(Frame frame){
         this.input = new InputReader(frame);
+
         Properties prop;
         try {
             prop = PropertyLoader.load("src/fr/main/sniffer/config/init.properties");
@@ -60,7 +61,7 @@ public class InitListener implements Runnable{
         for(PcapIf dev : alldevs){
             Log.writeLogDebugMessage((dev.getDescription() != null) ? dev.getDescription(): dev.getName());
         }
-        PcapIf device = alldevs.get(0);
+        PcapIf device = alldevs.get(1);
         Log.writeLogDebugMessage(String.format("Choosing : %s",(device.getDescription() != null) ? device.getDescription(): device.getName()));
         int snaplen = 64 * 1024;
         int flags = Pcap.MODE_PROMISCUOUS;
@@ -112,7 +113,7 @@ public class InitListener implements Runnable{
         return s;
     }
 
-    private void generateProtocol() throws IOException, InterruptedException {
+    public static void generateProtocol() throws IOException, InterruptedException {
         String pathConfig = getPathDatBotSniffer() + "\\src\\fr\\main\\sniffer\\config";
         File output = new File(pathConfig + "\\d2jsonOutput.json");
         Process p = new ProcessBuilder(pathConfig + "\\d2json.exe", pathConfig + "\\Invoker.swf").redirectOutput(output).start();
