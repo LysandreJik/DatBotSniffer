@@ -3,8 +3,6 @@ package fr.main.sniffer;
 import fr.main.display.Frame;
 import fr.main.sniffer.reader.InitListener;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Main class for the datbot packet sniffer

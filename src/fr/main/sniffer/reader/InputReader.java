@@ -6,6 +6,8 @@ import fr.main.sniffer.tools.Log;
 import fr.main.sniffer.tools.protocol.JsonLoader;
 
 import java.io.ByteArrayInputStream;
+import javax.xml.bind.DatatypeConverter;
+
 
 public class InputReader {
 
@@ -74,25 +76,29 @@ public class InputReader {
         Protocol protocol = new Protocol();
         DofusDataReader reader = new DofusDataReader(new ByteArrayInputStream(data));
         try {
+            if(id == 226){
+                String stringBytes = toHexString(data);
+                System.out.println(stringBytes);
+            }
             if(id == 6253 || id == 6440){
-                this.frame.addPacket(id,namePacket,"");
+                this.frame.addPacket(id,namePacket,String.valueOf(data.length),"");
             } else {
-                this.frame.addPacket(id,namePacket,protocol.getData(id,reader));
+                this.frame.addPacket(id,namePacket,String.valueOf(data.length),protocol.getData(id,reader));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            this.frame.addPacket(id,namePacket,"ERROR","ERROR");
             Log.writeLogDebugMessage("Impossible to parse packet " +id);
-            System.exit(1);
         }
     }
 
 
-    private String bytesToString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder(bytes.length * 2);
-        for (byte b : bytes) {
-            sb.append(String.format("%X", b));
-        }
-        return sb.toString();
+    public static String toHexString(byte[] array) {
+        return DatatypeConverter.printHexBinary(array);
+    }
+
+    public static byte[] toByteArray(String s) {
+        return DatatypeConverter.parseHexBinary(s);
     }
 
 
