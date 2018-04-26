@@ -103,6 +103,12 @@ public class FrameComponent {
         removeAllButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                DefaultTableModel model = (DefaultTableModel) table1.getModel();
+                int nbRow = model.getRowCount();
+                for(int i = 0; i < nbRow; i++){
+                    model.removeRow(0);
+                }
+
                 columnData.clear();
             }
         });
@@ -132,19 +138,14 @@ public class FrameComponent {
                 model.addRow(row);
                 updateRowHeights();
                 SwingUtilities.invokeLater(new Runnable() {
-
-
                     public void run() {
                         if(runningScroll){
                             scrollBar.setValue(scrollBar.getMaximum());
                         }
-
                     }
                 });
             }
         });
-
-
     }
 
     public String[] getColumnNames(){
