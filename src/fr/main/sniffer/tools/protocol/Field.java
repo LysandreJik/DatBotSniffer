@@ -73,7 +73,20 @@ public class Field {
 	public void setBbwPosition(long bbwPosition) {
 		this.bbwPosition = bbwPosition;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Field{" +
+				"name='" + name + '\'' +
+				", type='" + type + '\'' +
+				", writeMethod='" + writeMethod + '\'' +
+				", isVector=" + isVector +
+				", isDynamicLength=" + isDynamicLength +
+				", length=" + length +
+				", writeLengthMethod='" + writeLengthMethod + '\'' +
+				", useTypeManager=" + useTypeManager +
+				", useBBW=" + useBBW +
+				", bbwPosition=" + bbwPosition +
+				'}';
+	}
 }

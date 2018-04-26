@@ -44,8 +44,6 @@ public class JsonLoader {
         return list;
     }
 
-    public List<String> types = new ArrayList<>();
-
     private List<Field> parseFieldArray(JSONArray array) {
 
         List<Field> list = new ArrayList<>();
@@ -57,10 +55,9 @@ public class JsonLoader {
             Field obj = new Field();
             obj.setName((String) object.get("Name"));
             obj.setType((String) object.get("Type"));
+
+            String type = (String) object.get("Type");
             obj.setWriteMethod((String) object.get("WriteMethod"));
-            if(!types.contains(obj.getWriteMethod())){
-                types.add(obj.getWriteMethod());
-            }
             obj.setIsVector((boolean) object.get("IsVector"));
             obj.setDynamicLength((boolean) object.get("IsDynamicLength"));
             obj.setLength((long) object.get("Length"));
@@ -68,6 +65,9 @@ public class JsonLoader {
             obj.setUseTypeManager((boolean) object.get("UseTypeManager"));
             obj.setUseBBW((boolean) object.get("UseBBW"));
             obj.setBbwPosition((long) object.get("BBWPosition"));
+            if(!((String) object.get("WriteMethod")).equals("") && (boolean) object.get("UseTypeManager")){
+                System.out.println(obj);
+            }
             list.add(obj);
         }
 
