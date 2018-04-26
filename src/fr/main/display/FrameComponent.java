@@ -19,6 +19,7 @@ public class FrameComponent {
     private JTable table1;
     JPanel panelMain;
     private JScrollPane scrollPane1;
+    private JButton stopButton;
     JScrollBar scrollBar;
     List<Data> columnData;
 
@@ -86,6 +87,12 @@ public class FrameComponent {
         buttonColumnDelete.setMnemonic(KeyEvent.VK_D);
 
         columnData = new ArrayList<>();
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void addPacket(int id, String name, String tooltip, String value){
