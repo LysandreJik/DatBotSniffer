@@ -153,9 +153,7 @@ public class FrameComponent {
     }
 
     public Object[][] getData(){
-        Object[][] data = {
-                {150, "RAND_NAME", "RANDOM VALUES"}
-        };
+        Object[][] data = new Object[0][];
         return data;
     }
 
