@@ -11,8 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +20,12 @@ public class FrameComponent {
     JPanel panelMain;
     private JScrollPane scrollPane1;
     private JButton stopButton;
+    private JButton toggleSnifferButton;
+    private JButton removeAllButton;
     JScrollBar scrollBar;
     List<Data> columnData;
-    boolean running = true;
+    boolean runningScroll = true;
+    boolean runningSniff = true;
 
     public FrameComponent(){
         try {
@@ -93,10 +94,28 @@ public class FrameComponent {
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(running)
-                    running = false;
+                if(runningScroll)
+                    runningScroll = false;
                 else
-                    running = true;
+                    runningScroll = true;
+            }
+        });
+        removeAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                columnData.clear();
+            }
+        });
+        toggleSnifferButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(runningSniff) {
+                    runningSniff = false;
+                    InitListener.closeListener();
+                }else{
+                    runningSniff = true;
+                    InitListener.startListener();
+                }
             }
         });
     }
@@ -116,7 +135,7 @@ public class FrameComponent {
 
 
                     public void run() {
-                        if(running){
+                        if(runningScroll){
                             scrollBar.setValue(scrollBar.getMaximum());
                         }
 
