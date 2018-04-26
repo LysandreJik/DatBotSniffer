@@ -1,6 +1,7 @@
 package fr.main.sniffer.reader;
 
 import fr.main.display.Frame;
+import fr.main.sniffer.Main;
 import fr.main.sniffer.reader.utils.DofusDataReader;
 import fr.main.sniffer.tools.Log;
 import fr.main.sniffer.tools.PropertyLoader;
@@ -27,55 +28,39 @@ public class InitListener implements Runnable{
     private int port;
     private Pcap pcap;
     private InputReader input;
+    private int index;
 
     @Override
     public void run() {
-        System.out.println(getNumberOfAvailableDevices());
         pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, "");
     }
 
-    public InitListener(Frame frame){
+    public void kill(){
+        pcap.close();
+    }
+
+    public InitListener(Frame frame, PcapIf device, int index){
         this.input = new InputReader(frame);
+        this.index = index;
 
         Properties prop;
         try {
             prop = PropertyLoader.load("src/fr/main/sniffer/config/init.properties");
             this.port = Integer.parseInt(prop.getProperty("serv.auth.port", "5555"));
-            this.initDevice();
+            this.initDevice(device);
             this.generateProtocol();
         } catch (IOException e) {
             Log.writeLogDebugMessage("Can't read init.properties");
         } catch (InterruptedException e) {
             Log.writeLogDebugMessage("Can't generate protocol");
         }
+
+
     }
 
-    private int getNumberOfAvailableDevices(){
-        List<PcapIf> alldevs = new ArrayList<>();
-        Log.writeLogDebugMessage("Device available");
-        StringBuilder errbuf = new StringBuilder();
-        int r = Pcap.findAllDevs(alldevs, errbuf);
-        if (r == Pcap.NOT_OK || alldevs.isEmpty()) {
-            Log.writeLogDebugMessage("Device not found");
-            return 0;
-        }
 
-        return alldevs.size();
-    }
-
-    private void initDevice(){
-        List<PcapIf> alldevs = new ArrayList<>();
-        Log.writeLogDebugMessage("Device available");
+    private void initDevice(PcapIf device){
         StringBuilder errbuf = new StringBuilder();
-        int r = Pcap.findAllDevs(alldevs, errbuf);
-        if (r == Pcap.NOT_OK || alldevs.isEmpty()) {
-            Log.writeLogDebugMessage("Device not found");
-            return;
-        }
-        for(PcapIf dev : alldevs){
-            Log.writeLogDebugMessage((dev.getDescription() != null) ? dev.getDescription(): dev.getName());
-        }
-        PcapIf device = alldevs.get(1);
         Log.writeLogDebugMessage(String.format("Choosing : %s",(device.getDescription() != null) ? device.getDescription(): device.getName()));
         int snaplen = 64 * 1024;
         int flags = Pcap.MODE_PROMISCUOUS;
@@ -141,8 +126,10 @@ public class InitListener implements Runnable{
                     DofusDataReader reader = new DofusDataReader(new ByteArrayInputStream(buffer.getByteArray(0, size)));
                     if(port == 5555){
                         input.buildMessage(reader, true);
+                        Main.cleanDevices(index);
                     } else {
                         input.buildMessage(reader, false);
+                        Main.cleanDevices(index);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
