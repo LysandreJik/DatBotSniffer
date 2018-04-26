@@ -127,7 +127,7 @@ public class FrameComponent {
         table1 = new JTable(tableModel);
         table1.setAutoCreateColumnsFromModel(true);
 
-        table1.getColumnModel().getColumn(0).setPreferredWidth(80);
+        table1.getColumnModel().getColumn(0).setMaxWidth(100);
 
         TableColumn tm = table1.getColumnModel().getColumn(0);
         tm.setCellRenderer(new ColorColumnRenderer(Color.white, Color.BLACK));
@@ -142,8 +142,8 @@ public class FrameComponent {
         tm = table1.getColumnModel().getColumn(2);
         tm.setCellRenderer(new ColorColumnRenderer(Color.white, Color.darkGray));
 
-        table1.getColumnModel().getColumn(3).setPreferredWidth(50);
-        table1.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table1.getColumnModel().getColumn(3).setMaxWidth(50);
+        table1.getColumnModel().getColumn(4).setMaxWidth(200);
 
     }
 

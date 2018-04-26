@@ -22,9 +22,9 @@ public class Main {
 
         // Disposing of the window
         // frame.dispose();
-//
-//        InitListener i = new InitListener(frame);
-//        new Thread(i).start();
+
+        InitListener i = new InitListener(frame);
+        new Thread(i).start();
     }
 
 }

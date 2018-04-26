@@ -60,7 +60,7 @@ public class InitListener implements Runnable{
         for(PcapIf dev : alldevs){
             Log.writeLogDebugMessage((dev.getDescription() != null) ? dev.getDescription(): dev.getName());
         }
-        PcapIf device = alldevs.get(1);
+        PcapIf device = alldevs.get(0);
         Log.writeLogDebugMessage(String.format("Choosing : %s",(device.getDescription() != null) ? device.getDescription(): device.getName()));
         int snaplen = 64 * 1024;
         int flags = Pcap.MODE_PROMISCUOUS;
