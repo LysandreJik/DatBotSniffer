@@ -1,5 +1,7 @@
 package fr.main.display;
 
+import fr.main.sniffer.reader.InitListener;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +24,7 @@ public class FrameComponent {
     private JButton stopButton;
     JScrollBar scrollBar;
     List<Data> columnData;
+    boolean running = true;
 
     public FrameComponent(){
         try {
@@ -90,7 +93,10 @@ public class FrameComponent {
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(running)
+                    running = false;
+                else
+                    running = true;
             }
         });
     }
@@ -107,8 +113,13 @@ public class FrameComponent {
                 model.addRow(row);
                 updateRowHeights();
                 SwingUtilities.invokeLater(new Runnable() {
+
+
                     public void run() {
-                        scrollBar.setValue(scrollBar.getMaximum());
+                        if(running){
+                            scrollBar.setValue(scrollBar.getMaximum());
+                        }
+
                     }
                 });
             }
