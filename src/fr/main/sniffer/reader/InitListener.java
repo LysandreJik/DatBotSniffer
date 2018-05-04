@@ -1,6 +1,7 @@
 package fr.main.sniffer.reader;
 
 import fr.main.display.Frame;
+import fr.main.display.FrameComponent;
 import fr.main.sniffer.Main;
 import fr.main.sniffer.reader.utils.DofusDataReader;
 import fr.main.sniffer.tools.Log;
@@ -15,6 +16,7 @@ import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
 import org.jnetpcap.protocol.tcpip.Tcp;
 
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;

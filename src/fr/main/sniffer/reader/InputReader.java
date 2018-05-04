@@ -1,6 +1,7 @@
 package fr.main.sniffer.reader;
 
 import fr.main.display.Frame;
+import fr.main.display.FrameComponent;
 import fr.main.sniffer.reader.utils.DofusDataReader;
 import fr.main.sniffer.tools.Log;
 import fr.main.sniffer.tools.protocol.JsonLoader;
@@ -45,7 +46,7 @@ public class InputReader {
                 this.bigPacketData = destination;
             }
             if (bigPacketLengthToFull == 0) {
-                treatPacket(bigPacketId, bigPacketData);
+                treatPacket(bigPacketId, bigPacketData, isFromClient);
                 bigPacketData = null;
                 bigPacketId = 0;
             }
@@ -56,7 +57,7 @@ public class InputReader {
             }
             message.build(reader);
             if (message.getId() != 0 && message.bigPacketLength == 0) {
-                treatPacket(message.getId(), message.getData());
+                treatPacket(message.getId(), message.getData(), isFromClient);
             }
             else if (message.getId() != 0 && message.bigPacketLength != 0) {
                 bigPacketLengthToFull = message.bigPacketLength;
@@ -68,8 +69,11 @@ public class InputReader {
         buildMessage(reader,isFromClient);
     }
 
-    private void treatPacket(int id, byte[] data){
+    private void treatPacket(int id, byte[] data, boolean isFromClient){
         String namePacket = "";
+        if(isFromClient && !FrameComponent.rowC.contains(id)){
+            FrameComponent.rowC.add(id);
+        }
         for(fr.main.sniffer.tools.protocol.Message msg : JsonLoader.Messages){
             if(msg.getProtocolId() == id){
                 namePacket = msg.getName();
@@ -78,11 +82,7 @@ public class InputReader {
         Protocol protocol = new Protocol();
         DofusDataReader reader = new DofusDataReader(new ByteArrayInputStream(data));
         try {
-            if(id == 226){
-                String stringBytes = toHexString(data);
-                System.out.println(stringBytes);
-            }
-            if(id == 6253 || id == 6440){
+            if(id == 6253){
                 if(addPacket)
                     this.frame.addPacket(id,namePacket,String.valueOf(data.length),"");
             } else {

@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FrameComponent {
@@ -118,9 +119,11 @@ public class FrameComponent {
             public void actionPerformed(ActionEvent e) {
                 if(runningSniff) {
                     Main.listeners.get(0).breakLoop();
+                    System.out.println("Stop listenning");
                     runningSniff = false;
                 }else{
                     Main.listeners.get(0).startLoop();
+                    System.out.println("Start listenning");
                     runningSniff = true;
                 }
             }
@@ -185,6 +188,7 @@ public class FrameComponent {
 
     }
 
+
     private void updateRowHeights() {
         for (int row = 0; row < table1.getRowCount(); row++)
         {
@@ -199,6 +203,9 @@ public class FrameComponent {
             table1.setRowHeight(row, rowHeight);
         }
     }
+
+    public static List<Integer> rowC = new ArrayList<>();
+    Color c = new Color(255,50,50).brighter().brighter();
 
     class ColorColumnRenderer extends DefaultTableCellRenderer {
         Color bkgndColor, fgndColor;
@@ -216,9 +223,18 @@ public class FrameComponent {
             Component cell = super.getTableCellRendererComponent
                     (table, value, isSelected, hasFocus, row, column);
 
-            cell.setBackground( bkgndColor );
-            cell.setForeground( fgndColor );
+            if(column == 0){
+                int id = (int) table.getModel().getValueAt(row,column);
+                if(rowC.contains(id)){
+                    c = new Color(50,50,255).brighter().brighter();
+                } else {
+                    c = new Color(255,50,50).brighter().brighter();
+                }
+            }
 
+            cell.setBackground(c);
+            cell.setForeground( fgndColor );
+            table.setGridColor(Color.black);
             return cell;
         }
     }
