@@ -1,5 +1,6 @@
 package fr.main.display;
 
+import fr.main.sniffer.Main;
 import fr.main.sniffer.reader.InitListener;
 
 import javax.swing.*;
@@ -116,8 +117,10 @@ public class FrameComponent {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(runningSniff) {
+                    Main.listeners.get(0).breakLoop();
                     runningSniff = false;
                 }else{
+                    Main.listeners.get(0).startLoop();
                     runningSniff = true;
                 }
             }
@@ -145,6 +148,7 @@ public class FrameComponent {
             }
         });
     }
+
 
     public String[] getColumnNames(){
         String[] columnNames = {"Packet ID", "Packet name", "Packet value", "extend", "remove"};

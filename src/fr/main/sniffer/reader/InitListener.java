@@ -19,14 +19,12 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 public class InitListener implements Runnable{
 
     private int port;
-    private Pcap pcap;
+    private  Pcap pcap;
     private InputReader input;
     private int index;
 
@@ -37,6 +35,14 @@ public class InitListener implements Runnable{
 
     public void kill(){
         pcap.close();
+    }
+
+    public void breakLoop(){
+        InputReader.addPacket = false;
+    }
+
+    public void startLoop(){
+        InputReader.addPacket = true;
     }
 
     public InitListener(Frame frame, PcapIf device, int index){

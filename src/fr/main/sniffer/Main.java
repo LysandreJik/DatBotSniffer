@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Main {
 
-    static List<InitListener> listeners;
+    public static List<InitListener> listeners;
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing the packet sniffer");
@@ -58,11 +58,10 @@ public class Main {
             for(int i = 0; i < listeners.size(); i++){
                 if(i != kept){
                     listeners.get(i).kill();
+                    listeners.remove(i);
                     System.out.println("killed listener "+i);
                 }
             }
-        }else{
-            System.out.println("Only one listener available.");
         }
     }
 

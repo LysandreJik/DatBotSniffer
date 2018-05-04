@@ -38,12 +38,13 @@ public class Frame {
     }
 
     public void addPacket(int id, String name, String tooltip, List<String> values){
-
-
         try{
             StringBuilder valuesString = new StringBuilder("<html>");
             for(String value : values){
+                value = "\t" + value;
                 valuesString.append(value).append("<br/>");
+
+                
             }
             valuesString = new StringBuilder(valuesString.substring(0, valuesString.length() - 5) + "</html>");
             bf.addPacket(id, name, tooltip, valuesString.toString());

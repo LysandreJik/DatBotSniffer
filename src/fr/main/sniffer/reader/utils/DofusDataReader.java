@@ -55,7 +55,6 @@ public class DofusDataReader implements IDofusDataInput {
     }
 
     public int readVarInt() throws IOException {
-        System.out.println("readVarInt");
         int b = 0;
         int value = 0;
         int offset = 0;
@@ -76,7 +75,6 @@ public class DofusDataReader implements IDofusDataInput {
     }
 
     public int readVarUhInt() throws IOException {
-        System.out.println("readVarUhInt");
         int b = 0;
         int value = 0;
         int offset = 0;
@@ -102,7 +100,6 @@ public class DofusDataReader implements IDofusDataInput {
     }
 
     public int readVarShort() throws IOException {
-        System.out.println("readVarShort");
         int b = 0;
         short value = 0;
         int offset = 0;
@@ -125,7 +122,6 @@ public class DofusDataReader implements IDofusDataInput {
     }
 
     public int readVarUhShort() throws IOException {
-        System.out.println("readVarUhShort");
         int b = 0;
         short value = 0;
         int offset = 0;
@@ -156,19 +152,16 @@ public class DofusDataReader implements IDofusDataInput {
     }
 
     public long readVarLong() throws IOException {
-        System.out.println("readVarLong");
         return readInt64().toNumber();
     }
 
     public long readVarUhLong() throws IOException {
-        System.out.println("readVarUhLong");
         return readUInt64().toNumber();
     }
 
 
     private Int64 readInt64()
     {
-        System.out.println("readInt64");
         int b = 0;
         Int64 result = new Int64();
         int i = 0;
@@ -222,7 +215,6 @@ public class DofusDataReader implements IDofusDataInput {
 
     private UInt64 readUInt64() throws IOException
     {
-        System.out.println("readUInt64");
         int b = 0;
         UInt64 result = new UInt64();
         int i = 0;
@@ -262,70 +254,57 @@ public class DofusDataReader implements IDofusDataInput {
     }
 
     public boolean readBoolean() throws IOException {
-        System.out.println("readBoolean");
         return dis.readBoolean();
     }
 
     public byte readByte() throws IOException {
-        System.out.println("readByte");
         return dis.readByte();
     }
 
     public byte[] readBytes(int n) throws IOException{
-        System.out.println("readBytes");
         byte[] b = new byte[n];
         dis.readFully(b, 0, n);
         return b;
     }
 
     public char readChar() throws IOException{
-        System.out.println("readChar");
         return dis.readChar();
     }
 
     public double readDouble() throws IOException {
-        System.out.println("readDouble");
         return dis.readDouble();
     }
 
     public float readFloat() throws IOException {
-        System.out.println("readFloat");
         return dis.readFloat();
     }
 
     public void readFully(byte[] b, int off, int len) throws IOException {
-        System.out.println("readFully");
         dis.readFully(b, off, len);
     }
 
     public int readInt() throws IOException {
-        System.out.println("readInt");
         return dis.readInt();
     }
 
     public int readUInt() throws IOException{
-        System.out.println("readUInt");
         return (int) BitConverter.ToUInt32(ReadBigEndianBytes(4), 0);
     }
 
     @SuppressWarnings("deprecation")
     public String readLine() throws IOException {
-        System.out.println("readLine");
         return dis.readLine();
     }
 
     public long readLong() throws IOException {
-        System.out.println("readLong");
         return dis.readLong();
     }
 
     public int readULong() throws IOException{
-        System.out.println("readULong");
         return (int) BitConverter.ToUInt64(ReadBigEndianBytes(8), 0);
     }
 
     public short readShort() throws IOException {
-        System.out.println("readShort");
         return dis.readShort();
     }
 
@@ -334,24 +313,20 @@ public class DofusDataReader implements IDofusDataInput {
 //    }
 
     public int readUnsignedByte() throws IOException {
-        System.out.println("readUnsignedByte");
         return dis.readUnsignedByte();
     }
 
     public int readUShort() throws IOException {
-        System.out.println("readUShort");
         return dis.readUnsignedShort();
     }
 
     public String ReadAscii(int bytesAmount) throws IOException
     {
-        System.out.println("ReadAscii");
         byte[] buffer = this.readBytes(bytesAmount);
         return new String(buffer, StandardCharsets.US_ASCII);
     }
 
     public String readUTF() throws IOException {
-        System.out.println("readUTF");
         int len  = readUShort();
         byte[] bytes = readBytes(len);
         return new String(bytes, StandardCharsets.UTF_8);
@@ -359,13 +334,11 @@ public class DofusDataReader implements IDofusDataInput {
 
     public String ReadUTFBytes(short len) throws IOException
     {
-        System.out.println("ReadUTFBytes");
         byte[] bytes = readBytes(len);
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
     public int skipBytes(int n) throws IOException {
-        System.out.println("skipBytes");
         return dis.skipBytes(n);
     }
 
@@ -375,7 +348,6 @@ public class DofusDataReader implements IDofusDataInput {
 
     private byte[] ReadBigEndianBytes(int count) throws IOException
     {
-        System.out.println("ReadBigEndianBytes");
         byte[] array = new byte[count];
         for (int i = count - 1; i >= 0; i--)
             array[i] = (byte) dis.readByte();
@@ -385,13 +357,11 @@ public class DofusDataReader implements IDofusDataInput {
 
     public float ReadSingle() throws IOException
     {
-        System.out.println("ReadSingle");
         return BitConverter.ToSingle(ReadBigEndianBytes(4), 0);
     }
 
     public String ReadUTF7BitLength() throws IOException
     {
-        System.out.println("ReadUTF7BitLength");
         int n = readInt();
         byte[] bytes = readBytes(n);
         return new String(bytes, StandardCharsets.UTF_8);
@@ -399,13 +369,11 @@ public class DofusDataReader implements IDofusDataInput {
 
     @Override
     public void readFully(byte[] b) throws IOException {
-        System.out.println("readFully");
         this.dis.readFully(b);
     }
 
     @Override
     public int readUnsignedShort() throws IOException {
-        System.out.println("readUnsignedShort");
         return dis.readUnsignedShort();
     }
 

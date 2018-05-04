@@ -56,7 +56,7 @@ public class Protocol {
             return null;
         }
 
-        Log.writeLogDebugMessage("Class name : " +name);
+        Log.writeLogDebugMessage("Class : " +name);
 
         String parent = message.getParent();
         if(!parent.isEmpty()){
@@ -210,6 +210,7 @@ public class Protocol {
     }
 
     private String formatField(String name, Object value){
+        name = "\t" + name;
         return String.format("%s: %s",name,value);
     }
 
