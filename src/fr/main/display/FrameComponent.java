@@ -96,10 +96,15 @@ public class FrameComponent {
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(runningScroll)
+                if(runningScroll){
+                    stopButton.setLabel("Start auto-scroll");
                     runningScroll = false;
-                else
+                }
+
+                else{
+                    stopButton.setLabel("Stop auto-scroll");
                     runningScroll = true;
+                }
             }
         });
         removeAllButton.addActionListener(new ActionListener() {
@@ -119,10 +124,12 @@ public class FrameComponent {
             public void actionPerformed(ActionEvent e) {
                 if(runningSniff) {
                     Main.listeners.get(0).breakLoop();
+                    toggleSnifferButton.setLabel("Start sniffer");
                     System.out.println("Stop listenning");
                     runningSniff = false;
                 }else{
                     Main.listeners.get(0).startLoop();
+                    toggleSnifferButton.setLabel("Stop sniffer");
                     System.out.println("Start listenning");
                     runningSniff = true;
                 }
