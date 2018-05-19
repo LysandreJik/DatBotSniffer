@@ -1,5 +1,5 @@
 # DatBotSniffer
-Sniffer for dofus packets using :
+Sniffer for packets using :
   
   - Java Swing
-  - d2json (decompile DofusInvoker.swf)
+  - d2json
