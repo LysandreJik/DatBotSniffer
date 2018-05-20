@@ -235,7 +235,11 @@ public class FrameComponent {
                 if(rowC.contains(id)){
                     c = new Color(50,50,255).brighter().brighter();
                 } else {
-                    c = new Color(255,50,50).brighter().brighter();
+                    if(row % 2 == 0){
+                        c = new Color(255,50,50).brighter().brighter();
+                    } else {
+                        c = new Color(255,50,50).brighter();
+                    }
                 }
             }
 

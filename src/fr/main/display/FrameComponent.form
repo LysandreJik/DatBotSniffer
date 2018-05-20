@@ -71,9 +71,11 @@
             </constraints>
             <properties>
               <actionCommand value="Toggle sniffer"/>
+              <enabled value="true"/>
               <focusable value="false"/>
               <hideActionText value="false"/>
               <label value="Stop sniffer"/>
+              <name value="Stop sniffer"/>
               <opaque value="true"/>
               <selected value="true"/>
               <text value="Stop sniffer"/>
