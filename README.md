@@ -1,5 +1,5 @@
 # DatBotSniffer
 Sniffer for packets using :
-  
-  - Java Swing
   - d2json
+  
+The interface is being rebuilt using Nodejs and Electron.
